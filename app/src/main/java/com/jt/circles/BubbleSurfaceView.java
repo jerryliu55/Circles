@@ -18,6 +18,7 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint paintSprite = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static float acx = 0, acy = 0;
+    private static boolean shoot = false;
 
     public BubbleSurfaceView(Context context) {
         super(context);
@@ -58,6 +59,11 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
     {
         acx = x;
         acy = y;
+    }
+
+    public static void setShoot(boolean s)
+    {
+        shoot = s;
     }
 
     public BubbleThread getThread()
