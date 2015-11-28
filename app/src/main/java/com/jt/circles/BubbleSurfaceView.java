@@ -58,7 +58,7 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
     class BubbleThread extends Thread {
         private int canvasWidth = 200;
         private int canvasHeight = 400;
-        private static final int SPEED = 4;
+        private static final int SPEED = 8;
         private boolean run = false;
 
         private float bubbleX;
@@ -108,6 +108,8 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
             }
         }
         private void doDraw(Canvas canvas) {
+            if (bubbleX <= 50 || bubbleX >= canvasWidth - 50) headingX *= -1;
+            if (bubbleY <= 50 || bubbleY >= canvasHeight - 50) headingY *= -1;
             bubbleX = bubbleX + (headingX * SPEED);
             bubbleY = bubbleY + (headingY * SPEED);
             canvas.save();
