@@ -3,6 +3,7 @@ package com.jt.circles;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 public class GameActivity extends AppCompatActivity
 {
+    public static Typeface quicksand;
 
     private float x, y;
     private float ix = 0, iy = 0;
@@ -26,6 +28,7 @@ public class GameActivity extends AppCompatActivity
     private boolean ini = false;
 
     private GestureDetectorCompat mDetector;
+    private BubbleSurfaceView surfaceView;
 
     /**
      * Activity things
@@ -34,34 +37,50 @@ public class GameActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(new BubbleSurfaceView(this));
+        quicksand = Typeface.createFromAsset(getAssets(), "Quicksand-Bold.ttf");
+
+        surfaceView = new BubbleSurfaceView(this);
+        setContentView(surfaceView);
         //setContentView(R.layout.activity_game);
-        tv = (TextView) findViewById(R.id.display);
+        //tv = (TextView) findViewById(R.id.display);
 
         // gesture stuff
         mDetector = new GestureDetectorCompat(this, new MyGestureListener());
 
         //listener for accelerometer, use anonymous class for simplicity
         ((SensorManager) getSystemService(Context.SENSOR_SERVICE)).registerListener(
-            new SensorEventListener() {
-                @Override
-                public void onSensorChanged(SensorEvent event) {
-                    //set ball speed based on phone tilt (ignore Z axis)
-                    if (ini) calibrate(event);
-                    x = -event.values[0] - ix;
-                    y = event.values[1] - iy;
-                    //timer event will redraw ball
-                    BubbleSurfaceView.setAccel(x, y);
-                }
+                new SensorEventListener() {
+                    @Override
+                    public void onSensorChanged(SensorEvent event) {
+                        //set ball speed based on phone tilt (ignore Z axis)
+                        if (ini) calibrate(event);
+                        x = -event.values[0] - ix;
+                        y = event.values[1] - iy;
+                        //timer event will redraw ball
+                        BubbleSurfaceView.setAccel(x, y);
+                    }
 
-                @Override
-                public void onAccuracyChanged(Sensor sensor, int accuracy) {
-                } //ignore
-            },
-            ((SensorManager) getSystemService(Context.SENSOR_SERVICE))
-                    .getSensorList(Sensor.TYPE_ACCELEROMETER).get(0),
-            SensorManager.SENSOR_DELAY_GAME);
+                    @Override
+                    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+                    } //ignore
+                },
+                ((SensorManager) getSystemService(Context.SENSOR_SERVICE))
+                        .getSensorList(Sensor.TYPE_ACCELEROMETER).get(0),
+                SensorManager.SENSOR_DELAY_GAME);
     }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+    }
+
+    /*@Override
+    public void onPause()
+    {
+        //surfaceView.pauseThread();
+        super.onPause();
+    }*/
 
     public void calibrate(SensorEvent event) {
         ix = -event.values[0];
@@ -100,14 +119,3 @@ public class GameActivity extends AppCompatActivity
         }
     }
 }
-
-    /*@Override
-    protected void onResume()
-    {
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        super.onResume();
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-    }*/
-
