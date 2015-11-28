@@ -23,7 +23,7 @@ public class BubbleSurfaceView extends SurfaceView
     }
     public void surfaceCreated(SurfaceHolder holder) {
         Canvas canvas = sh.lockCanvas();
-        canvas.drawColor(Color.BLACK);
+        canvas.drawColor(Color.WHITE);
         canvas.drawCircle(100, 200, 50, paint);
         sh.unlockCanvasAndPost(canvas);
     }

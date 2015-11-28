@@ -12,8 +12,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bitmap b = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
-        Canvas c = new Canvas(b);
+
         setContentView(new BubbleSurfaceView(this));
     }
 
