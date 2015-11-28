@@ -26,6 +26,7 @@ public class GameActivity extends AppCompatActivity
     private boolean ini = false;
 
     private GestureDetectorCompat mDetector;
+    private BubbleSurfaceView surfaceView;
 
     /**
      * Activity things
@@ -34,7 +35,8 @@ public class GameActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(new BubbleSurfaceView(this));
+        surfaceView = new BubbleSurfaceView(this);
+        setContentView(surfaceView);
         //setContentView(R.layout.activity_game);
         tv = (TextView) findViewById(R.id.display);
 
@@ -61,6 +63,18 @@ public class GameActivity extends AppCompatActivity
             ((SensorManager) getSystemService(Context.SENSOR_SERVICE))
                     .getSensorList(Sensor.TYPE_ACCELEROMETER).get(0),
             SensorManager.SENSOR_DELAY_GAME);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause()
+    {
+        surfaceView.pauseThread();
     }
 
     public void calibrate(SensorEvent event) {

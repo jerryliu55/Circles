@@ -66,6 +66,16 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
         shoot = s;
     }
 
+    public void pauseThread()
+    {
+        try {
+
+            sh.lockCanvas(null);
+            thread.wait();
+        }
+        catch(InterruptedException e){}
+    }
+
     public BubbleThread getThread()
     {
         return thread;
@@ -74,15 +84,9 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
     class BubbleThread extends Thread {
         private int canvasWidth = 200;
         private int canvasHeight = 400;
-        private static final int SPEED = 8;
-        private static final int SPRITE_SPEED = 4;
+        private static final int SPRITE_SPEED = 4; // for the sprite
         private static final float MAX_SPEED = 4;
         private boolean run = false;
-
-        private float bubbleX;
-        private float bubbleY;
-        private float headingX;
-        private float headingY;
 
         private float spriteX;
         private float spriteY;
@@ -99,12 +103,8 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
         public void doStart() {
             synchronized (sh) {
                 // Start bubble in centre and create some random motion
-                bubbleX = canvasWidth / 2;
-                bubbleY = canvasHeight / 2;
                 spriteX = canvasWidth / 2;
                 spriteY = canvasHeight / 2;
-                headingX = (float) (-1 + (Math.random() * 2));
-                headingY = (float) (-1 + (Math.random() * 2));
             }
         }
         public void run() {
@@ -134,12 +134,8 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
             }
         }
         private void doDraw(Canvas canvas) {
-            if (bubbleX <= 50 || bubbleX >= canvasWidth - 50) headingX *= -1;
-            if (bubbleY <= 50 || bubbleY >= canvasHeight - 50) headingY *= -1;
-            bubbleX = bubbleX + (headingX * SPEED);
-            bubbleY = bubbleY + (headingY * SPEED);
 
-
+            ////////////////////////////////////////
             // move the sprite
             // limit total speed to 2
             float a = 1;
@@ -168,22 +164,28 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 xdot = (int) (acx * a1);
                 ydot = (int) (acy * a1);
             }
+            // end moving the sprite
+            ///////////////////////////////////////////
 
 
-            // boundaries
+            // boundaries for the sprite
             if (spriteX <= 50) spriteX = 50;
             if (spriteX >= canvasWidth - 50) spriteX = canvasWidth - 50;
             if (spriteY <= 50) spriteY = 50;
             if (spriteY >= canvasHeight - 50) spriteY = canvasHeight - 50;
 
-            /*canvas.save();
-            canvas.restore();*/
-            canvas.drawColor(Color.WHITE);
-            canvas.drawCircle(bubbleX, bubbleY, 50, paint);
-            // sprite draws below
-            canvas.drawCircle(spriteX, spriteY, 50, paint);
-            canvas.drawCircle(spriteX + xdot, spriteY + ydot, 8, paint1);
-            //canvas.drawCircle(spriteX - xdot, spriteY - ydot, 8, paint1);
+
+            try {
+                canvas.save();
+                canvas.restore();
+                // draw background
+                canvas.drawColor(Color.WHITE);
+                // sprite draws below
+                canvas.drawCircle(spriteX, spriteY, 50, paint);
+                canvas.drawCircle(spriteX + xdot, spriteY + ydot, 8, paint1);
+            }
+            catch(NullPointerException e)
+            {}
         }
     }
 }
