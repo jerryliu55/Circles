@@ -19,6 +19,7 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private final Paint paint1 = new Paint(Paint.ANTI_ALIAS_FLAG);
     private static float acx = 0, acy = 0;
     private static boolean shoot = false;
+    private int time = 0;
 
     public BubbleSurfaceView(Context context) {
         super(context);
@@ -71,7 +72,9 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
         try {
 
             sh.lockCanvas(null);
-            thread.wait();
+            synchronized (sh) {
+                thread.wait();
+            }
         }
         catch(InterruptedException e){}
     }
@@ -82,14 +85,16 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
     }
 
     class BubbleThread extends Thread {
-        private int canvasWidth = 200;
-        private int canvasHeight = 400;
+        private int canvasWidth = 900;
+        private int canvasHeight = 1600;
         private static final int SPRITE_SPEED = 4; // for the sprite
         private static final float MAX_SPEED = 4;
         private boolean run = false;
 
         private float spriteX;
         private float spriteY;
+        private float lastx = 0;
+        private float lasty = 0;
 
         private float xdot = 0;
         private float ydot = 40;
@@ -146,6 +151,7 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
             // x and y accel
             acx = a * acx;
             acy = a * acy;
+
             if (Math.abs(acx) > 0.3)
             {
                 //if (Math.abs(acx) > 2) acx = 2 * acx/Math.abs(acx);
@@ -157,13 +163,17 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 spriteY += SPRITE_SPEED * acy;
             }
             //dots
-            float a1 = 1;
-            a1 = (float) (40.0 / Math.sqrt(acx * acx + acy * acy));
-            if (Math.abs(acx) > 0.3 || Math.abs(acy) > 0.3)
-            {
-                xdot = (int) (acx * a1);
-                ydot = (int) (acy * a1);
+            if (time >= 2) {
+                float a1 = 1;
+                a1 = (float) (40.0 / Math.sqrt(acx * acx + acy * acy));
+                if (Math.abs(acx) > 0.3 || Math.abs(acy) > 0.3) {
+                    xdot = (int) (acx * a1);
+                    ydot = (int) (acy * a1);
+                }
+                time = 0;
             }
+            lastx = acx;
+            lasty = acy;
             // end moving the sprite
             ///////////////////////////////////////////
 
@@ -186,6 +196,7 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
             }
             catch(NullPointerException e)
             {}
+            time++;
         }
     }
 }

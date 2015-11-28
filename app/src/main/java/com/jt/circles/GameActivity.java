@@ -71,11 +71,12 @@ public class GameActivity extends AppCompatActivity
         super.onResume();
     }
 
-    @Override
+    /*@Override
     public void onPause()
     {
-        surfaceView.pauseThread();
-    }
+        //surfaceView.pauseThread();
+        super.onPause();
+    }*/
 
     public void calibrate(SensorEvent event) {
         ix = -event.values[0];
