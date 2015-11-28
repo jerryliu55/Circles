@@ -58,7 +58,7 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
     class BubbleThread extends Thread {
         private int canvasWidth = 200;
         private int canvasHeight = 400;
-        private static final int SPEED = 2;
+        private static final int SPEED = 4;
         private boolean run = false;
 
         private float bubbleX;
@@ -114,6 +114,7 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
             canvas.restore();
             canvas.drawColor(Color.WHITE);
             canvas.drawCircle(bubbleX, bubbleY, 50, paint);
+            canvas.drawCircle(600, 500, 50, paint);
         }
     }
 }
