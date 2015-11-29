@@ -32,17 +32,19 @@ public class HowActivity extends AppCompatActivity
 
 
         final TextView title = (TextView) findViewById(R.id.title1);
-        final TextView instructions = (TextView) findViewById(R.id.instructions);
+        final TextView instruction1 = (TextView) findViewById(R.id.instruction1);
+        final TextView instruction2 = (TextView) findViewById(R.id.instruction2);
         //Button back = (Button) findViewById(R.id.back);
 
-        if (title != null) {
-            title.setTypeface(quicksand);
-            title.setTextSize(50);
-        }
-        if (instructions != null) {
-            instructions.setTypeface(quicksand);
-            instructions.setTextSize(25);
-        }
+
+        title.setTypeface(quicksand);
+        title.setTextSize(50);
+
+
+        instruction1.setTypeface(quicksand);
+        instruction1.setTextSize(25);
+        instruction2.setTypeface(quicksand);
+        instruction2.setTextSize(25);
 
         /*back.setTransformationMethod(null);
         back.setTextSize(25);

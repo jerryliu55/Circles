@@ -76,15 +76,16 @@ public class GameActivity extends AppCompatActivity
     {
         super.onResume();
         // gesture stuff
-        mDetector = new GestureDetectorCompat(this, gestureListener);
+        //mDetector = new GestureDetectorCompat(this, gestureListener);
     }
 
-    /*@Override
+    @Override
     public void onPause()
     {
         //surfaceView.pauseThread();
         super.onPause();
-    }*/
+    }
+
 
     public void calibrate(SensorEvent event) {
         ix = -event.values[0];
