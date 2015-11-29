@@ -39,24 +39,23 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
         whit.setColor(Color.WHITE);
         whit.setStyle(Paint.Style.FILL);
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 7; i++)
         {
             paint[i] = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint[i].setStyle(Paint.Style.FILL);
         }
-        paint[0].setColor(Color.rgb(135,206,250));
+        paint[0].setColor(Color.rgb(135,206,250)); //sky light blue
         paint[1].setColor(Color.rgb(65,105,225)); // Royal Blue
-        paint[2].setColor(Color.rgb(135,206,250)); //Sky Light Blue
-        paint[3].setColor(Color.rgb(34,139,34)); //forest Green
-        paint[4].setColor(Color.rgb(186, 85, 211));
-        paint[5].setColor(Color.rgb(152,251,152)); //pale green
-        paint[6].setColor(Color.rgb(220,20,60));//light red
-        paint[7].setColor(Color.rgb(255, 165, 0));
+        paint[2].setColor(Color.rgb(34,139,34)); //forest Green
+        paint[3].setColor(Color.rgb(186, 85, 211));
+        paint[4].setColor(Color.rgb(152,251,152)); //pale green
+        paint[5].setColor(Color.rgb(220,20,60));//light red
+        paint[6].setColor(Color.rgb(255, 165, 0));
 
 
         for (int i = 0; i < 30; i++)
         {
-            c[i] = new Circle((int)(Math.random()*7.999), 1900/2, 1080/2);
+            c[i] = new Circle((int)(Math.random()*6.999), 1900/2, 1080/2);
             c[i].setCX(60 + i * 201);
             c[i].setHX(i);
             c[i].setHY(4);
@@ -219,7 +218,7 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
                     {
                         if (c[i].getStat() == 0) {
                             next = i;
-                            c[next] = new Circle ((int)(Math.random()*7.99), 1900/2, 1080/2);
+                            c[next] = new Circle ((int)(Math.random()*6.99), 1900/2, 1080/2);
                             c[next].setStat(1);
                             break yo;
                         }
@@ -250,8 +249,8 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
             if (loop == 10) {
                 double rand = Math.random();
-                c[last].setHX((int)((0.70)*c[last].getHX()));
-                c[last].setHY((int)((0.70)*c[last].getHY()));
+                c[last].setHX((int)(0*(0.70)*c[last].getHX()));
+                c[last].setHY((int)(0*(0.70)*c[last].getHY()));
             }
 
 
@@ -316,7 +315,7 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
                             if (x == 2) {
                                 score += 2;
                                 c[control].setStat(1);
-                                c[control].setColour((int)(Math.random()*7.99));
+                                c[control].setColour((int)(Math.random()*6.99));
                             }
                         else
                             score += Circle.collision(c[i], c[j], 0);
