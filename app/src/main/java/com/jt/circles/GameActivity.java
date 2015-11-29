@@ -30,6 +30,8 @@ public class GameActivity extends AppCompatActivity
     private GestureDetectorCompat mDetector;
     private BubbleSurfaceView surfaceView;
 
+    private MyGestureListener gestureListener = new MyGestureListener();
+
     /**
      * Activity things
      */
@@ -45,7 +47,7 @@ public class GameActivity extends AppCompatActivity
         //tv = (TextView) findViewById(R.id.display);
 
         // gesture stuff
-        mDetector = new GestureDetectorCompat(this, new MyGestureListener());
+        mDetector = new GestureDetectorCompat(this, gestureListener);
 
         //listener for accelerometer, use anonymous class for simplicity
         ((SensorManager) getSystemService(Context.SENSOR_SERVICE)).registerListener(
@@ -73,14 +75,17 @@ public class GameActivity extends AppCompatActivity
     public void onResume()
     {
         super.onResume();
+        // gesture stuff
+        //mDetector = new GestureDetectorCompat(this, gestureListener);
     }
 
-    /*@Override
+    @Override
     public void onPause()
     {
         //surfaceView.pauseThread();
         super.onPause();
-    }*/
+    }
+
 
     public void calibrate(SensorEvent event) {
         ix = -event.values[0];

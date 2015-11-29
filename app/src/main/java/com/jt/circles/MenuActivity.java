@@ -1,5 +1,6 @@
 package com.jt.circles;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -31,22 +32,33 @@ public class MenuActivity extends AppCompatActivity{
         play.setTextSize(50);
         play.setTypeface(quicksand);
         how.setTransformationMethod(null);
-        how.setTextSize(20);
+        how.setTextSize(25);
         how.setTypeface(quicksand);
+
+        final Intent playIntent = new Intent(this, GameActivity.class);
+        final Intent howIntent = new Intent(this, HowActivity.class);
+        howIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
 
         play.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-
+                startActivity(playIntent);
             }
         });
 
         how.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-
+                startActivity(howIntent);
             }
         });
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
     }
 
 }

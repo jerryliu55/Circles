@@ -2,4 +2,7 @@
     <string name="app_name">circles</string>
     <string name="play_button">play</string>
     <string name="how_to_Play">how to play</string>
+    <string name="instruction1">- tap to eject a ball</string>
+    <string name="instruction2">- you get points when balls of the same colour touch</string>
+    <string name="back_button">&lt; back</string>
 </resources>
