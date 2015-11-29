@@ -51,12 +51,11 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
         }
         paint[0].setColor(Color.rgb(135,206,250));
         paint[1].setColor(Color.rgb(65,105,225)); // Royal Blue
-        paint[2].setColor(Color.rgb(135,206,250)); //Sky Light Blue
-        paint[3].setColor(Color.rgb(34,139,34)); //forest Green
-        paint[4].setColor(Color.rgb(186, 85, 211));
-        paint[5].setColor(Color.rgb(152,251,152)); //pale green
-        paint[6].setColor(Color.rgb(220,20,60));//light red
-        paint[7].setColor(Color.rgb(255, 165, 0));
+        paint[2].setColor(Color.rgb(34,139,34)); //forest Green
+        paint[3].setColor(Color.rgb(186, 85, 211));
+        paint[4].setColor(Color.rgb(152,251,152)); //pale green
+        paint[5].setColor(Color.rgb(220,20,60));//light red
+        paint[6].setColor(Color.rgb(255, 165, 0));
 
         paintText.setColor(Color.BLACK);
         paintText.setStyle(Paint.Style.FILL);
@@ -67,7 +66,7 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
         for (int i = 0; i < 30; i++)
         {
 
-            c[i] = new Circle((int)(Math.random()*7.999), 1900/2, 1080/2);
+            c[i] = new Circle((int)(Math.random()*6.999), 1900/2, 1080/2);
             c[i].setStat(0);
             c[i].setCX(60 + i * 201);
             c[i].setHX(i);
@@ -185,7 +184,7 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
                     synchronized (sh) {
                         a = doDraw(c);
                         if (a == 1) {
-                            over = true;
+
                             return;
                         }
                     }

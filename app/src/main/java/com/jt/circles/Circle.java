@@ -86,7 +86,7 @@ public class Circle {
         headingY = 0;
         coordX = 100;
         coordY = 100;
-        color = (int)(Math.random()*7.99);
+        color = (int)(Math.random()*6.99);
         stat = 0;
     }
 
