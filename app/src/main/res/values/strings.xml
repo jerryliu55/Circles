@@ -5,4 +5,6 @@
     <string name="instruction1">- tap to eject a ball</string>
     <string name="instruction2">- you get points when balls of the same colour touch</string>
     <string name="back_button">&lt; back</string>
+    <string name="game_over">game over</string>
+    <string name="play_again">play again</string>
 </resources>
