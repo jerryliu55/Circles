@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:id="@+id/relative">
+
+    <TextView
+        android:name="@+id/title1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/how_to_Play"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"/>
+    <TextView
+        android:name="@+id/instructions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/instructions"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"/>
+
+
+    <!--<include
+        android:id="@+id/outer"
+        layout="@layout/activity_how_inner" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/back_button"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:background="@android:color/transparent"/>-->
+
+</LinearLayout>

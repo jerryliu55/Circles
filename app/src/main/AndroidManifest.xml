@@ -21,6 +21,11 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
         </activity>
 
+        <activity android:name=".HowActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+            android:parentActivityName=".MenuActivity">
+        </activity>
+
     </application>
 
 </manifest>

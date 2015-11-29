@@ -50,7 +50,7 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
         paintText.setColor(Color.BLACK);
         paintText.setStyle(Paint.Style.FILL);
-        paintText.setTextSize(80);
+        paintText.setTextSize(100);
         paintText.setTypeface(GameActivity.quicksand);
 
         for (int i = 0; i < 30; i++)
@@ -274,7 +274,7 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
                             c[i].inc();
                     }
                 }
-                canvas.drawText(String.valueOf(score), canvasWidth - 150, 80, paintText);
+                canvas.drawText(String.valueOf(score), canvasWidth - 135, 120, paintText);
             }catch(NullPointerException e) {}
             time++;
         }
