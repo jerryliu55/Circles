@@ -86,7 +86,7 @@ public class Circle {
         headingY = 0;
         coordX = 100;
         coordY = 100;
-        color = (int)(Math.random()*7.99);
+        color = (int)(Math.random()*6.99);
         stat = 0;
     }
 
@@ -109,18 +109,21 @@ public class Circle {
 
     public static int collision(Circle x, Circle y, int control)
     {
-        if (Math.sqrt((Math.pow((x.getCX()-y.getCX()), 2)+Math.pow((x.getCY()-y.getCY()), 2.0))) <= 100)
+        if (Math.sqrt((Math.pow((x.getCX()-y.getCX()), 2)+Math.pow((x.getCY()-y.getCY()), 2.0))) <= 95)
         {
-            if (equals(x,y) == 1 || control == 1)
-            {
+
                 if (control == 1 && equals(x, y) == 1)
                 {
                     x.remove();
                     y.remove();
                     return 2;
                 }
+            else if (equals(x,y) == 1) {
                 x.remove();
                 y.remove();
+                return 1;
+            }
+            else if (control == 1){
                 return 1;
             }
 

@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import java.lang.Object.*;
 
 /**
  * Created by Jerry on 2015-11-28.
@@ -22,6 +23,7 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private final Paint paint[] = new Paint[9];
     Circle c[] = new Circle[30];
     private static int control = 0;
+    private static boolean lose = false;
     private int time = 0;
     private int loop = 0;
     private int last = 0;
@@ -37,28 +39,28 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
         whit.setColor(Color.WHITE);
         whit.setStyle(Paint.Style.FILL);
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 7; i++)
         {
             paint[i] = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint[i].setStyle(Paint.Style.FILL);
         }
-        paint[0].setColor(Color.RED);
-        paint[1].setColor(Color.CYAN);
-        paint[2].setColor(Color.BLUE);
-        paint[3].setColor(Color.GREEN);
-        paint[4].setColor(Color.BLACK);
-        paint[5].setColor(Color.MAGENTA);
-        paint[6].setColor(Color.YELLOW);
-        paint[7].setColor(Color.LTGRAY);
+        paint[0].setColor(Color.rgb(135,206,250)); //sky light blue
+        paint[1].setColor(Color.rgb(65,105,225)); // Royal Blue
+        paint[2].setColor(Color.rgb(34,139,34)); //forest Green
+        paint[3].setColor(Color.rgb(186, 85, 211));
+        paint[4].setColor(Color.rgb(152,251,152)); //pale green
+        paint[5].setColor(Color.rgb(220,20,60));//light red
+        paint[6].setColor(Color.rgb(255, 165, 0));
 
 
         for (int i = 0; i < 30; i++)
         {
-            c[i] = new Circle((int)(Math.random()*7.999), 1900/2, 1080/2);
+            c[i] = new Circle((int)(Math.random()*6.999), 1900/2, 1080/2);
             c[i].setCX(60 + i * 201);
             c[i].setHX(i);
             c[i].setHY(4);
         }
+        control = 0;
         c[0].setStat(1);
         ctx = context;
         setFocusable(true);//make sure to get key events
@@ -154,6 +156,7 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
             }
         }
         public void run() {
+            lose = false;
             while (run) {
                 Canvas c = null;
                 int a;
@@ -211,12 +214,13 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 else
                 {
                     thirty  = 1;
-                    for(int i = 0; i < 30; i++)
+                    yo:for(int i = 0; i < 30; i++)
                     {
                         if (c[i].getStat() == 0) {
                             next = i;
-                            c[next] = new Circle ((int)(Math.random()*7.99), 1900/2, 1080/2);
+                            c[next] = new Circle ((int)(Math.random()*6.99), 1900/2, 1080/2);
                             c[next].setStat(1);
+                            break yo;
                         }
                     }
                 }
@@ -242,12 +246,12 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 control = next;
                 c[control].setStat(1);
             }
-/*
+
             if (loop == 10) {
                 double rand = Math.random();
-                c[last].setHX((int)(0.90)*c[last].getHX());
-                c[last].setHY((int)(0.90)*c[last].getHY());
-            }*/
+                c[last].setHX((int)(0*(0.70)*c[last].getHX()));
+                c[last].setHY((int)(0*(0.70)*c[last].getHY()));
+            }
 
 
             if (Math.sqrt(acx * acx + acy * acy) > MAX_SPEED)
@@ -261,12 +265,12 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
             if (Math.abs(acx) > 0.3)
             {
                 //if (Math.abs(acx) > 2) acx = 2 * acx/Math.abs(acx);
-                spriteX += (SPRITE_SPEED-1) * acx;
+                spriteX += (SPRITE_SPEED) * acx;
             }
             if (Math.abs(acy) > 0.3)
             {
                 //if (Math.abs(acy) > 2) acy = 2 * acy/Math.abs(acy);
-                spriteY += (SPRITE_SPEED-1) * acy;
+                spriteY += (SPRITE_SPEED) * acy;
             }
             //dots
             if (time >= 2) {
@@ -304,16 +308,17 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
                             if (x == 1)
                             {
-                                score += 1;
-                                return 1;
+                                //score += 1;
+                                Log.d("asdfasdf", "" + score);
+                                lose = true;
                             }
                             if (x == 2) {
                                 score += 2;
                                 c[control].setStat(1);
-                                c[control].setColour((int)(Math.random()*7.99));
+                                c[control].setColour((int)(Math.random()*6.99));
                             }
                         else
-                            Circle.collision(c[i], c[j], 0);
+                            score += Circle.collision(c[i], c[j], 0);
                     }
                 }
             }
@@ -361,6 +366,8 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
                     }
                 }
             }catch(NullPointerException e) {} catch(ArrayIndexOutOfBoundsException e){}
+            if (lose)
+                return 1;
             time++;
             loop++;
             return 0;
