@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -21,11 +20,13 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private static boolean shoot = false;
     private static float acx = 0, acy = 0;
     private final Paint paint[] = new Paint[9];
-    private final Paint paintText = new Paint();
     Circle c[] = new Circle[30];
     private static int control = 0;
     private int time = 0;
-
+    private int loop = 0;
+    private int last = 0;
+    private int score = 0;
+    private Paint whit = new Paint(Paint.ANTI_ALIAS_FLAG);
     public BubbleSurfaceView(Context context) {
         //calls surfaceView context
         super(context);
@@ -33,7 +34,10 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
         sh = getHolder();
         sh.addCallback(this);
         //set colour based on parameter
-        for (int i = 0; i < 9; i++)
+
+        whit.setColor(Color.WHITE);
+        whit.setStyle(Paint.Style.FILL);
+        for (int i = 0; i < 8; i++)
         {
             paint[i] = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint[i].setStyle(Paint.Style.FILL);
@@ -43,19 +47,14 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
         paint[2].setColor(Color.BLUE);
         paint[3].setColor(Color.GREEN);
         paint[4].setColor(Color.BLACK);
-        paint[5].setColor(Color.DKGRAY);
-        paint[6].setColor(Color.MAGENTA);
-        paint[7].setColor(Color.YELLOW);
-        paint[8].setColor(Color.LTGRAY);
+        paint[5].setColor(Color.MAGENTA);
+        paint[6].setColor(Color.YELLOW);
+        paint[7].setColor(Color.LTGRAY);
 
-        paintText.setColor(Color.BLACK);
-        paintText.setStyle(Paint.Style.FILL);
-        paintText.setTextSize(100);
-        paintText.setTypeface(GameActivity.quicksand);
 
         for (int i = 0; i < 30; i++)
         {
-            c[i] = new Circle(i%9);
+            c[i] = new Circle((int)(Math.random()*7.999), 1900/2, 1080/2);
             c[i].setCX(60 + i * 201);
             c[i].setHX(i);
             c[i].setHY(4);
@@ -120,8 +119,8 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
 
     class BubbleThread extends Thread {
-        private int canvasWidth = 200;
-        private int canvasHeight = 400;
+        private int canvasWidth = 1900;
+        private int canvasHeight = 1080;
         private static final int SPEED = 2;
         private static final int SPRITE_SPEED = 4; // for the sprite
         private static final float MAX_SPEED = 4;
@@ -132,13 +131,12 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
         private float xdot = 0;
         private float ydot = 40;
+        private int thirty = 0;
 
         private float spriteX;
         private float spriteY;
         private float headingX;
         private float headingY;
-
-        private int score = 0;
 
         public BubbleThread(SurfaceHolder surfaceHolder, Context context,
                             Handler handler) {
@@ -158,10 +156,13 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
         public void run() {
             while (run) {
                 Canvas c = null;
+                int a;
                 try {
                     c = sh.lockCanvas(null);
                     synchronized (sh) {
-                        doDraw(c);
+                        a = doDraw(c);
+                        if (a == 1)
+                            return;
                     }
                 } finally {
                     if (c != null) {
@@ -182,11 +183,73 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 doStart();
             }
         }
-        private void doDraw(Canvas canvas) {
+        private int doDraw(Canvas canvas) {
             ////////////////////////////////////////
             // move the sprite
             // limit total speed to 2
             float a = 1;
+
+            if (shoot == true)
+            {
+                setShoot(false);
+                int next = 0;
+                int cxx = c[control].getCX();
+                int cyy = c[control].getCY();
+                last = control;
+                double xa = acx;
+                double xb = acy;
+                if (xa == 0 && xb == 0)
+                    return 0;
+                //if (xb == 0)
+                    //xb = (10*Math.random());
+                double multiplier = (MAX_SPEED)/Math.sqrt(acx*acx + acy*acy);
+                double m2 = 110/Math.sqrt(acx*acx + acy*acy);
+                c[control].setHX((int)(SPRITE_SPEED*multiplier*xa));
+                c[control].setHY((int)(SPRITE_SPEED*multiplier*xb));
+                if (control + 1 < 30 && thirty != 1)
+                    next = control + 1;
+                else
+                {
+                    thirty  = 1;
+                    for(int i = 0; i < 30; i++)
+                    {
+                        if (c[i].getStat() == 0) {
+                            next = i;
+                            c[next] = new Circle ((int)(Math.random()*7.99), 1900/2, 1080/2);
+                            c[next].setStat(1);
+                        }
+                    }
+                }
+                if (c[control].getHX()>0) {
+                    c[control].setCX((int)(cxx+xa*m2+30));
+                    c[next].setCX(cxx);
+                }
+                else
+                {
+                    c[control].setCX((int)(cxx + xa*m2-30));
+                    c[next].setCX(cxx);
+                }
+                if (c[control].getHY()>0) {
+                    c[control].setCY((int)(cyy+xb*m2+30));
+                    c[next].setCY(cyy);
+                }
+                else
+                {
+                    c[control].setCY((int)(cyy + xb*m2-30));
+                    c[next].setCY(cyy);
+                }
+                loop = 0;
+                control = next;
+                c[control].setStat(1);
+            }
+/*
+            if (loop == 10) {
+                double rand = Math.random();
+                c[last].setHX((int)(0.90)*c[last].getHX());
+                c[last].setHY((int)(0.90)*c[last].getHY());
+            }*/
+
+
             if (Math.sqrt(acx * acx + acy * acy) > MAX_SPEED)
             {
                 a = (float) (MAX_SPEED / Math.sqrt(acx * acx + acy * acy));
@@ -198,12 +261,12 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
             if (Math.abs(acx) > 0.3)
             {
                 //if (Math.abs(acx) > 2) acx = 2 * acx/Math.abs(acx);
-                spriteX += SPRITE_SPEED * acx;
+                spriteX += (SPRITE_SPEED-1) * acx;
             }
             if (Math.abs(acy) > 0.3)
             {
                 //if (Math.abs(acy) > 2) acy = 2 * acy/Math.abs(acy);
-                spriteY += SPRITE_SPEED * acy;
+                spriteY += (SPRITE_SPEED-1) * acy;
             }
             //dots
             if (time >= 2) {
@@ -217,20 +280,44 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
             }
             lastx = acx;
             lasty = acy;
-
+            // end moving the sprite
+            ///////////////////////////////////////////
 
             if (spriteX <= 50) spriteX = 50;
             if (spriteX >= canvasWidth - 50) spriteX = canvasWidth - 50;
             if (spriteY <= 50) spriteY = 50;
             if (spriteY >= canvasHeight - 50) spriteY = canvasHeight - 50;
 
-            c[control].setCX((int)spriteX);
+            c[control].setCX((int) spriteX);
             c[control].setCY((int)spriteY);
-            // end moving the sprite
-            ///////////////////////////////////////////
 
 
-            for (int i = 0; i <= control; i++) //need to change to numCirclesActive
+            int x = 0;
+            for (int i = 0;i < 30; i++)
+            {
+                for (int j = i+1; j < 30; j++)
+                {
+                    if (c[i].getStat() == 1 && c[j].getStat() == 1 ) {
+                        if (i == control || j == control)
+
+                            x = Circle.collision(c[i], c[j], 1);
+
+                            if (x == 1)
+                            {
+                                score += 1;
+                                return 1;
+                            }
+                            if (x == 2) {
+                                score += 2;
+                                c[control].setStat(1);
+                                c[control].setColour((int)(Math.random()*7.99));
+                            }
+                        else
+                            Circle.collision(c[i], c[j], 0);
+                    }
+                }
+            }
+            for (int i = 0; i < 30; i++) //need to change to numCirclesActive
             {
                 if (i == control)
                 {
@@ -240,24 +327,23 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
                     if (c[i].getCY() <= 50) c[control].setCY(50);*/
                 }
                 else {
-                    if (c[i].getCX() >= canvasWidth - 50 || c[i].getCX() <= 50) {
+                    if (c[i].getCX() >= canvasWidth - 50){
+                        c[i].setCX(canvasWidth - 50);
                         c[i].setHX(-1 * c[i].getHX());
                     }
-                    if (c[i].getCY() >= canvasHeight - 50 || c[i].getCY() <= 50) {
+                        if (c[i].getCX() <= 50)
+                     {
+                         c[i].setCX(50);
+                        c[i].setHX(-1 * c[i].getHX());
+                    }
+                    if (c[i].getCY() >= canvasHeight - 50) {
+                        c[i].setCY(canvasHeight-50);
                         c[i].setHY(-1 * c[i].getHY());
                     }
-                }
-            }
-
-            for (int i = 0;i <= control; i++)
-            {
-                for (int j = i+1; j < 30; j++)
-                {
-                    if (c[i].getStat() == 1 && c[j].getStat() == 1 ) {
-                        if (i == control || j == control)
-                            score += 2 * Circle.collision(c[i], c[j], 1);
-                        else
-                            score += Circle.collision(c[i], c[j], 0);
+                    if (c[i].getCY() <= 50)
+                     {
+                         c[i].setCY(50);
+                         c[i].setHY(-1 * c[i].getHY());
                     }
                 }
             }
@@ -265,18 +351,20 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 canvas.save();
                 canvas.restore();
                 canvas.drawColor(Color.WHITE);
-                for (int i = 0; i <= control; i++) {
+                for (int i = 0; i < 30; i++) {
                     if (c[i].getStat() == 1) {
                         canvas.drawCircle(c[i].getCX(), c[i].getCY(), 50, paint[c[i].getColor()]);
                         if (i == control)
-                            canvas.drawCircle(c[control].getCX() + xdot, c[control].getCY() + ydot, 8, paint[7]);
+                            canvas.drawCircle(c[control].getCX() + xdot, c[control].getCY() + ydot, 8, whit);
                         if (i != control)
                             c[i].inc();
                     }
                 }
-                canvas.drawText(String.valueOf(score), canvasWidth - 135, 120, paintText);
-            }catch(NullPointerException e) {}
+            }catch(NullPointerException e) {} catch(ArrayIndexOutOfBoundsException e){}
             time++;
+            loop++;
+            return 0;
         }
+
     }
 }

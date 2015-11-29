@@ -13,11 +13,11 @@ public class Circle {
     private int color;
     private int stat;
 
-    public Circle(int color){
+    public Circle(int color, int x, int y){
         headingX = 0;
         headingY = 0;
-        coordX = 100;
-        coordY = 100;
+        coordX = x;
+        coordY = y;
         stat = 0;
         this.color = color;
     }
@@ -34,7 +34,7 @@ public class Circle {
 
     public void setStat(int x)
     {
-        stat = x;
+     stat = x;
     }
     public void setHY(int v)
     {
@@ -86,13 +86,14 @@ public class Circle {
         headingY = 0;
         coordX = 100;
         coordY = 100;
-        color = (int)Math.random()*8;
-        stat = 1;
+        color = (int)(Math.random()*7.99);
+        stat = 0;
     }
 
     public void remove()
     {
         this.color = Color.WHITE;
+        this.stat = 0;
     }
 
     public static int equals(Circle x, Circle y)
@@ -112,10 +113,14 @@ public class Circle {
         {
             if (equals(x,y) == 1 || control == 1)
             {
+                if (control == 1 && equals(x, y) == 1)
+                {
+                    x.remove();
+                    y.remove();
+                    return 2;
+                }
                 x.remove();
                 y.remove();
-                x.stat = 0;
-                y.stat = 0;
                 return 1;
             }
 
