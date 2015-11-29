@@ -34,7 +34,7 @@ public class EndActivity extends AppCompatActivity{
         gameOver.setTypeface(quicksand);
         score.setTextSize(25);
         score.setTypeface(quicksand);
-        score.setText(output);
+        score.setText("score: " + output);
         again.setTransformationMethod(null);
         again.setTextSize(35);
         again.setTypeface(quicksand);

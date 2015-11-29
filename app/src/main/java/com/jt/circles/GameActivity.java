@@ -1,6 +1,7 @@
 package com.jt.circles;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
@@ -8,12 +9,15 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.AsyncTask;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.SurfaceView;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -25,7 +29,7 @@ public class GameActivity extends AppCompatActivity
     private float x, y;
     private float ix = 0, iy = 0;
     private TextView tv;
-    private boolean ini = false;
+    private boolean ini = true;
 
     private GestureDetectorCompat mDetector;
     private BubbleSurfaceView surfaceView;
@@ -43,6 +47,7 @@ public class GameActivity extends AppCompatActivity
 
         surfaceView = new BubbleSurfaceView(this);
         setContentView(surfaceView);
+
         //setContentView(R.layout.activity_game);
         //tv = (TextView) findViewById(R.id.display);
 
@@ -69,6 +74,30 @@ public class GameActivity extends AppCompatActivity
                 ((SensorManager) getSystemService(Context.SENSOR_SERVICE))
                         .getSensorList(Sensor.TYPE_ACCELEROMETER).get(0),
                 SensorManager.SENSOR_DELAY_GAME);
+
+        AsyncCheck check = new AsyncCheck(this);
+        check.execute();
+        /*while (!(surfaceView.getOver()))
+        {
+            score = surfaceView.getScore();
+        }*/
+        /*final Intent endIntent = new Intent(this, EndActivity.class);
+        Thread checkOver = new Thread(new Runnable() {
+            public void run() {
+                if (surfaceView.getOver())
+                {
+                    finish();
+                    endIntent.putExtra("score", String.valueOf(surfaceView.getScore()));
+                    Log.d("a", "got here");
+                    startActivity(endIntent);
+                }
+                Log.d("a", "checking");
+            }
+        });
+        checkOver.start();*/
+
+        /*Intent endIntent = new Intent(this, EndActivity.class);
+        endIntent.putExtra("score", String.valueOf(score));*/
     }
 
     @Override
@@ -91,6 +120,38 @@ public class GameActivity extends AppCompatActivity
         ix = -event.values[0];
         iy = event.values[1];
         ini = false;
+    }
+
+    private class AsyncCheck extends AsyncTask<String, Void, String>
+    {
+        Context context;
+        private AsyncCheck(Context context)
+        {
+            this.context = context.getApplicationContext();
+        }
+        @Override
+        protected String doInBackground(String... params)
+        {
+
+            while (!(surfaceView.over)) {
+                //Log.d("b", "bbbbbb");
+
+            }
+            //Log.d("a", "aaaa");
+            return String.valueOf(surfaceView.score);
+        }
+        @Override
+        protected void onPostExecute(String result)
+        {
+            super.onPostExecute(result);
+            //Log.d("c", "cccccc");
+            if (!(result.equals(""))) {
+                //Log.d("d", "ddddd");
+                Intent endIntent = new Intent(context, EndActivity.class);
+                endIntent.putExtra("score", result);
+                startActivity(endIntent);
+            }
+        }
     }
 
     /**

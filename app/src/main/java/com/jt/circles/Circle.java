@@ -13,11 +13,11 @@ public class Circle {
     private int color;
     private int stat;
 
-    public Circle(int color){
+    public Circle(int color, int x, int y){
         headingX = 0;
         headingY = 0;
-        coordX = 100;
-        coordY = 100;
+        coordX = x;
+        coordY = y;
         stat = 0;
         this.color = color;
     }
@@ -86,13 +86,14 @@ public class Circle {
         headingY = 0;
         coordX = 100;
         coordY = 100;
-        color = (int)Math.random()*8;
-        stat = 1;
+        color = (int)(Math.random()*7.99);
+        stat = 0;
     }
 
     public void remove()
     {
         this.color = Color.WHITE;
+        this.stat = 0;
     }
 
     public static int equals(Circle x, Circle y)
@@ -108,14 +109,21 @@ public class Circle {
 
     public static int collision(Circle x, Circle y, int control)
     {
-        if (Math.sqrt((Math.pow((x.getCX()-y.getCX()), 2)+Math.pow((x.getCY()-y.getCY()), 2.0))) <= 100)
+        if (Math.sqrt((Math.pow((x.getCX()-y.getCX()), 2)+Math.pow((x.getCY()-y.getCY()), 2.0))) <= 95)
         {
-            if (equals(x,y) == 1 || control == 1)
+
+            if (control == 1 && equals(x, y) == 1)
             {
                 x.remove();
                 y.remove();
-                x.stat = 0;
-                y.stat = 0;
+                return 2;
+            }
+            else if (equals(x,y) == 1) {
+                x.remove();
+                y.remove();
+                return 3;
+            }
+            else if (control == 1){
                 return 1;
             }
 

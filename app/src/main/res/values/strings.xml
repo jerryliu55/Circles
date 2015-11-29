@@ -3,7 +3,9 @@
     <string name="play_button">play</string>
     <string name="how_to_Play">how to play</string>
     <string name="instruction1">- tap to eject a ball</string>
-    <string name="instruction2">- you get points when balls of the same colour touch</string>
+    <string name="instruction2">- avoid balls of different colour</string>
+    <string name="instruction3">- get points by colliding with balls of the same colour</string>
+    <string name="instruction4">- get more points when other balls of the same colour touch</string>
     <string name="back_button">&lt; back</string>
     <string name="game_over">game over</string>
     <string name="play_again">play again</string>
