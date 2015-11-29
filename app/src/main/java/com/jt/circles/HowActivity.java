@@ -34,6 +34,8 @@ public class HowActivity extends AppCompatActivity
         final TextView title = (TextView) findViewById(R.id.title1);
         final TextView instruction1 = (TextView) findViewById(R.id.instruction1);
         final TextView instruction2 = (TextView) findViewById(R.id.instruction2);
+        final TextView instruction3 = (TextView) findViewById(R.id.instruction3);
+        final TextView instruction4 = (TextView) findViewById(R.id.instruction4);
         //Button back = (Button) findViewById(R.id.back);
 
 
@@ -45,6 +47,10 @@ public class HowActivity extends AppCompatActivity
         instruction1.setTextSize(25);
         instruction2.setTypeface(quicksand);
         instruction2.setTextSize(25);
+        instruction3.setTypeface(quicksand);
+        instruction3.setTextSize(25);
+        instruction4.setTypeface(quicksand);
+        instruction4.setTextSize(25);
 
         /*back.setTransformationMethod(null);
         back.setTextSize(25);

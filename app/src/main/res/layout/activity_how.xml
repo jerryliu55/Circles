@@ -17,13 +17,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/instruction1"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="20dp"/>
     <TextView
         android:id="@+id/instruction2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/instruction2"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="20dp" />
+    <TextView
+        android:id="@+id/instruction3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/instruction3"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="20dp" />
+    <TextView
+        android:id="@+id/instruction4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/instruction4"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="20dp" />
 
 
     <!--<include

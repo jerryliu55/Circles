@@ -29,7 +29,7 @@ public class GameActivity extends AppCompatActivity
     private float x, y;
     private float ix = 0, iy = 0;
     private TextView tv;
-    private boolean ini = false;
+    private boolean ini = true;
 
     private GestureDetectorCompat mDetector;
     private BubbleSurfaceView surfaceView;
@@ -134,19 +134,19 @@ public class GameActivity extends AppCompatActivity
         {
 
             while (!(surfaceView.over)) {
-                Log.d("b", "bbbbbb");
+                //Log.d("b", "bbbbbb");
 
             }
-            Log.d("a", "aaaa");
+            //Log.d("a", "aaaa");
             return String.valueOf(surfaceView.score);
         }
         @Override
         protected void onPostExecute(String result)
         {
             super.onPostExecute(result);
-            Log.d("c", "cccccc");
+            //Log.d("c", "cccccc");
             if (!(result.equals(""))) {
-                Log.d("d", "ddddd");
+                //Log.d("d", "ddddd");
                 Intent endIntent = new Intent(context, EndActivity.class);
                 endIntent.putExtra("score", result);
                 startActivity(endIntent);
