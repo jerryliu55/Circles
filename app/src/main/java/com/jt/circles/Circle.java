@@ -121,7 +121,7 @@ public class Circle {
             else if (equals(x,y) == 1) {
                 x.remove();
                 y.remove();
-                return 1;
+                return 3;
             }
             else if (control == 1){
                 return 1;
