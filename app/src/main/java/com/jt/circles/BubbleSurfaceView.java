@@ -51,10 +51,10 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
         }
         paint[0].setColor(Color.rgb(135,206,250));
         paint[1].setColor(Color.rgb(65,105,225)); // Royal Blue
-        paint[2].setColor(Color.rgb(34,139,34)); //forest Green
+        paint[2].setColor(Color.rgb(34, 139, 34)); //forest Green
         paint[3].setColor(Color.rgb(186, 85, 211));
-        paint[4].setColor(Color.rgb(152,251,152)); //pale green
-        paint[5].setColor(Color.rgb(220,20,60));//light red
+        paint[4].setColor(Color.rgb(152, 251, 152)); //pale green
+        paint[5].setColor(Color.rgb(220, 20, 60));//light red
         paint[6].setColor(Color.rgb(255, 165, 0));
 
         paintText.setColor(Color.BLACK);
@@ -328,21 +328,20 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 for (int j = i+1; j < 30; j++)
                 {
                     if (c[i].getStat() == 1 && c[j].getStat() == 1 ) {
-                        if (i == control || j == control)
-
+                        if (i == control || j == control) {
                             x = Circle.collision(c[i], c[j], 1);
 
-                        if (x == 1)
-                        {
+                            if (x == 1) {
                             /*Intent endIntent = new Intent(callingContext, EndActivity.class);
                             endIntent.putExtra("score", String.valueOf(score));*/
-                            over = true;
-                            //return 1;
-                        }
-                        if (x == 2) {
-                            score += 2;
-                            c[control].setStat(1);
-                            c[control].setColour((int)(Math.random()*6.99));
+                                over = true;
+                                //return 1;
+                            }
+                            if (x == 2) {
+                                score += 2;
+                                c[control].setStat(1);
+                                c[control].setColour((int) (Math.random() * 6.99));
+                            }
                         }
                         else {
                             score += Circle.collision(c[i], c[j], 0);
