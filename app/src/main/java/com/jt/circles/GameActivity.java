@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
@@ -30,6 +31,7 @@ public class GameActivity extends AppCompatActivity
     private float ix = 0, iy = 0;
     private TextView tv;
     private boolean ini = true;
+    private AsyncCheck check;
 
     private GestureDetectorCompat mDetector;
     private BubbleSurfaceView surfaceView;
@@ -75,7 +77,7 @@ public class GameActivity extends AppCompatActivity
                         .getSensorList(Sensor.TYPE_ACCELEROMETER).get(0),
                 SensorManager.SENSOR_DELAY_GAME);
 
-        AsyncCheck check = new AsyncCheck(this);
+        check = new AsyncCheck(this);
         check.execute();
         /*while (!(surfaceView.getOver()))
         {
@@ -101,18 +103,19 @@ public class GameActivity extends AppCompatActivity
     }
 
     @Override
-    public void onResume()
-    {
-        super.onResume();
-        // gesture stuff
-        //mDetector = new GestureDetectorCompat(this, gestureListener);
-    }
-
-    @Override
     public void onPause()
     {
-        //surfaceView.pauseThread();
         super.onPause();
+        //check.cancel(true);
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if ((keyCode == KeyEvent.KEYCODE_BACK))
+        {
+            System.exit(1);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 
