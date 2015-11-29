@@ -109,18 +109,21 @@ public class Circle {
 
     public static int collision(Circle x, Circle y, int control)
     {
-        if (Math.sqrt((Math.pow((x.getCX()-y.getCX()), 2)+Math.pow((x.getCY()-y.getCY()), 2.0))) <= 100)
+        if (Math.sqrt((Math.pow((x.getCX()-y.getCX()), 2)+Math.pow((x.getCY()-y.getCY()), 2.0))) <= 95)
         {
-            if (equals(x,y) == 1 || control == 1)
-            {
+
                 if (control == 1 && equals(x, y) == 1)
                 {
                     x.remove();
                     y.remove();
                     return 2;
                 }
-                x.remove();
-                y.remove();
+            if (equals(x,y) == 1) {
+            x.remove();
+            y.remove();
+            return 1;
+        }
+            if (control == 1){
                 return 1;
             }
 
