@@ -244,7 +244,7 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
                     {
                         if (c[i].getStat() == 0) {
                             next = i;
-                            c[next] = new Circle ((int)(Math.random()*7.99), 1900/2, 1080/2);
+                            c[next] = new Circle ((int)(Math.random()*6.99), 1900/2, 1080/2);
                             c[next].setStat(1);
                             break yo;
                         }
@@ -342,7 +342,7 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
                         if (x == 2) {
                             score += 2;
                             c[control].setStat(1);
-                            c[control].setColour((int)(Math.random()*7.99));
+                            c[control].setColour((int)(Math.random()*6.99));
                         }
                         else {
                             score += Circle.collision(c[i], c[j], 0);
