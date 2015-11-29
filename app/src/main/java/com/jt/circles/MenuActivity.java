@@ -36,6 +36,7 @@ public class MenuActivity extends AppCompatActivity{
         how.setTypeface(quicksand);
 
         final Intent playIntent = new Intent(this, GameActivity.class);
+        playIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         final Intent howIntent = new Intent(this, HowActivity.class);
         howIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 

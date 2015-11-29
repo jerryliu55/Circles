@@ -28,6 +28,11 @@
             android:noHistory="true">
         </activity>
 
+        <activity android:name=".EndActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+            android:noHistory="true">
+        </activity>
+
     </application>
 
 </manifest>
