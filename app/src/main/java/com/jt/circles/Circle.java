@@ -118,12 +118,12 @@ public class Circle {
                     y.remove();
                     return 2;
                 }
-            if (equals(x,y) == 1) {
-            x.remove();
-            y.remove();
-            return 1;
-        }
-            if (control == 1){
+            else if (equals(x,y) == 1) {
+                x.remove();
+                y.remove();
+                return 1;
+            }
+            else if (control == 1){
                 return 1;
             }
 
