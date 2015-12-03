@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Movie;
 import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -15,20 +16,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class GameActivity extends AppCompatActivity
 {
     public static Typeface quicksand;
 
     private float x, y;
-    private float ix = 0, iy = 0;
+    private static float ix = 0, iy = 0;
     private TextView tv;
     private boolean ini = true;
     private AsyncCheck check;
@@ -122,6 +127,21 @@ public class GameActivity extends AppCompatActivity
     public void calibrate(SensorEvent event) {
         ix = -event.values[0];
         iy = event.values[1];
+
+        // make toast
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.toast_layout,
+                (ViewGroup) findViewById(R.id.toast_layout_root));
+        TextView text = (TextView) layout.findViewById(R.id.text);
+        text.setTypeface(quicksand);
+        text.setTextSize(15);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
+
         ini = false;
     }
 
@@ -169,13 +189,21 @@ public class GameActivity extends AppCompatActivity
 
     class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
+        private MotionEvent active;
         @Override
         public boolean onDown(MotionEvent event) {
             return true;
         }
 
-        @Override
+        /*@Override
         public boolean onSingleTapConfirmed(MotionEvent event)
+        {
+            BubbleSurfaceView.setShoot(true);
+            return true;
+        }*/
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent event)
         {
             BubbleSurfaceView.setShoot(true);
             return true;
@@ -184,6 +212,7 @@ public class GameActivity extends AppCompatActivity
         @Override
         public void onLongPress(MotionEvent event)
         {
+            active = event;
             ini = true;
         }
     }

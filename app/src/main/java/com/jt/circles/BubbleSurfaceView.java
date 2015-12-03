@@ -386,8 +386,10 @@ public class BubbleSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 for (int i = 0; i < 30; i++) {
                     if (c[i].getStat() == 1) {
                         canvas.drawCircle(c[i].getCX(), c[i].getCY(), 50, paint[c[i].getColor()]);
-                        if (i == control)
-                            canvas.drawCircle(c[control].getCX() + xdot, c[control].getCY() + ydot, 8, whit);
+                        if (i == control) {
+                            //canvas.drawCircle(c[control].getCX() + xdot, c[control].getCY() + ydot, 8, whit);
+                            canvas.drawCircle(c[control].getCX(), c[control].getCY(), 20, whit);
+                        }
                         if (i != control)
                             c[i].inc();
                     }
